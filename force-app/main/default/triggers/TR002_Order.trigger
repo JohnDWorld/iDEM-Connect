@@ -5,5 +5,5 @@
  * @author JohnDWorld
  */
 trigger TR002_Order on Order (after delete) {
-
+    APU001_CheckData.CheckAccountForOrder(Trigger.oldMap);
 }
