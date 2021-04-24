@@ -54,11 +54,7 @@ private class APU001_CheckData_TEST {
 
     //Implementation test of CheckAccountForOrder Method
     @isTest static void CheckAccountWithoutOtherOrder_TEST() {
-<<<<<<< HEAD
         //Pass active case on true
-=======
-        List<Order> odrToDel = new List<Order>();
->>>>>>> 054252bfe728c364c584b3edfa36574431e892db
         Account account = [SELECT Id, Active__c, (SELECT Id FROM Orders) FROM Account WHERE Name='Test Account'];
         account.Active__c = true;
 
@@ -68,10 +64,7 @@ private class APU001_CheckData_TEST {
         }
         Test.stopTest();
 
-<<<<<<< HEAD
         //Check case active is false without order
-=======
->>>>>>> 054252bfe728c364c584b3edfa36574431e892db
         account = [SELECT Active__c FROM Account WHERE Name='Test Account'];
         System.assertEquals(false, account.Active__c);
     }
