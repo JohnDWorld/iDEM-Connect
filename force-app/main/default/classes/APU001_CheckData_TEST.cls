@@ -18,12 +18,13 @@ private class APU001_CheckData_TEST {
         PricebookEntry priceBook = TestDataFactory.createPriceBook(product2);
         insert priceBook;
         
-        Order order = TestDataFactory.createOrder(account, priceBook);
-        insert order;
+        List<Order> ordersList = TestDataFactory.createListOrders(account, priceBook, 10);
+        insert ordersList;
 
-        OrderItem orderItem = TestDataFactory.createOrderItem(order, priceBook);
-        insert orderItem;
+        List<OrderItem> orderItemsList = TestDataFactory.createListOrderItems(ordersList, priceBook);
+        insert orderItemsList;
     }
+
     //Implementation Test of CheckOrderWithoutOrderItem Method
     @isTest static void CheckOrderWithoutOrderItem_TEST() {
         //Change status and delete order item
@@ -39,8 +40,8 @@ private class APU001_CheckData_TEST {
         try {
             update odrToUpd;
         } catch (Exception e) {
-            System.Assert(e.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION'));
-            System.Assert(e.getMessage().contains('No items detected. Please insert items to update the order status.'));
+            Boolean expectedExceptionThrown =  e.getMessage().contains('No items detected. Please insert items to update the order status.') ? true : false; 
+            System.AssertEquals(expectedExceptionThrown, true); 
         }
         Test.stopTest();
 
@@ -49,5 +50,22 @@ private class APU001_CheckData_TEST {
         for(Order order: orders){
             System.assertEquals('Draft', order.Status);
         }
+    }
+
+    //Implementation test of CheckAccountForOrder Method
+    @isTest static void CheckAccountWithoutOtherOrder_TEST() {
+        //Pass active case on true
+        Account account = [SELECT Id, Active__c, (SELECT Id FROM Orders) FROM Account WHERE Name='Test Account'];
+        account.Active__c = true;
+
+        Test.startTest();
+        for(Order order: account.Orders){
+            delete order;
+        }
+        Test.stopTest();
+
+        //Check case active is false without order
+        account = [SELECT Active__c FROM Account WHERE Name='Test Account'];
+        System.assertEquals(false, account.Active__c);
     }
 }
