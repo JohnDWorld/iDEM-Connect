@@ -83,4 +83,24 @@ public abstract class TestDataFactory {
         }
         return orderItems;
     }
+
+    //User creation
+    public static User createUser(){
+        Profile profile = [SELECT Id FROM Profile WHERE Name='Standard User'];
+        Blob b = Crypto.generateAesKey(128);
+        String h = EncodingUtil.convertToHex(b);
+        String uId = h.substring(0, 8);
+        User user = new User(
+            Alias = uId, 
+            Email=uId+'@testorg.com', 
+            EmailEncodingKey='UTF-8', 
+            LastName='UserTest', 
+            LanguageLocaleKey='en_US', 
+            LocaleSidKey='en_US', 
+            ProfileId = profile.Id, 
+            TimeZoneSidKey='Europe/Paris', 
+            UserName=uId+'@testorg.com',
+            IsActive=true);
+        return user;
+    }
 }

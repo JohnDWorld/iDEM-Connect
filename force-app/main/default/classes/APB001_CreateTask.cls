@@ -22,7 +22,7 @@ global class APB001_CreateTask implements Database.Batchable<sObject>{
                     Status = 'Not Started',
                     Priority = 'Normal',
                     IsReminderSet = true,
-                    RecurrenceInterval = 5
+                    ReminderDateTime = System.now()+5
                 );
                 allTasksToUpdate.add(newCallTask);
             }
