@@ -14,4 +14,16 @@ public with sharing class APU001_CheckData {
             }
         }
     }
+
+    //Method to check case active on account
+    public static void CheckAccountForOrder(Map<Id,Order> orders) {
+        List<Account> accounts = new List<Account>();
+        for(Account account : [SELECT Active__c, (SELECT Id FROM Orders WHERE Id IN :orders.keySet()) FROM Account]){
+            if (account.Orders.size() == 0) {
+                account.active__c = false;
+            }
+            accounts.add(account);
+        }
+        update accounts;
+    }
 }
