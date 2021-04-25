@@ -40,7 +40,7 @@ private class APU001_CheckData_TEST {
         try {
             update odrToUpd;
         } catch (Exception e) {
-            Boolean expectedExceptionThrown =  e.getMessage().contains('No items detected. Please insert items to update the order status.') ? true : false; 
+            Boolean expectedExceptionThrown =  e.getMessage().contains('An order must have at least one product.') ? true : false; 
             System.AssertEquals(expectedExceptionThrown, true); 
         }
         Test.stopTest();
