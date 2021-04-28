@@ -3,7 +3,7 @@
  * 
  * @author JohnDWorld
  */
-@isTest (seeAllData=false)
+@isTest
 private class APS001_CreateTask_TEST {
     static testMethod void APS001_CreateTask_TEST(){
         Test.startTest();
