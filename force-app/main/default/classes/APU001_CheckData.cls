@@ -22,8 +22,8 @@ public with sharing class APU001_CheckData {
         for(Account account : [SELECT Active__c, (SELECT Id FROM Orders WHERE Id IN :ordersMap.keySet()) FROM Account]){
             if (account.Orders.size() == 0) {
                 account.active__c = false;
+                accounts.add(account);
             }
-            accounts.add(account);
         }
         update accounts;
     }

@@ -6,9 +6,9 @@
  */
 trigger TR001_Order on Order (before update, after delete) {
 
-    if(Trigger.isUpdate){
+    if(Trigger.isBefore && Trigger.isUpdate){
         APU001_CheckData.CheckOrderWithoutOrderItem(Trigger.newMap);
-    } else if(Trigger.isDelete){
+    } else if(Trigger.isAfter && Trigger.isDelete){
         APU001_CheckData.CheckAccountForOrder(Trigger.oldMap);
     }
 }
